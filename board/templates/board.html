@@ -1,0 +1,149 @@
+{% load board_extras %}
+
+<html>
+<head>
+    <title>MiniB</title>
+</head>
+<style type="text/css">
+    body{
+        background-color: ddf;
+    }
+    a{
+        color: darkblue;}
+    a:hover{
+        color: blue;}
+    textarea{
+        #border: medium none;
+        padding: 0px;
+        margin: 0px;
+        z-index: 6;
+        left: 0px;
+        outline: medium none;
+        border-color: #77f;
+        border-style: double;
+        border-width: 1px;
+    }
+    #id_picURL{
+        #border: medium none;
+        padding: 0px;
+        margin: 0px;
+        z-index: 6;
+        left: 0px;
+        outline: medium none;
+        border-color: #77f;
+        border-style: double;
+        border-width: 1px;
+    }
+    #id_title{
+        #border: medium none;
+        padding: 0px;
+        margin: 0px;
+        z-index: 6;
+        left: 0px;
+        outline: medium none;
+        border-color: #77f;
+        border-style: double;
+        border-width: 1px;
+    }
+    .pages{
+        color=red;
+    }
+    .post{
+        border-radius: 10px;
+		background-color: #c8ca2d;
+        background-color: #ddddee;
+		background-color:rgba(0,0,0,0.06);
+        padding: 1em;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+    #content{
+        background-color: #c8ca2d;
+        background-color: #ddddee;
+		background-color:rgba(0,0,0,0.06);
+        margin: auto;
+        width: 40em;
+        padding: 2em;
+        padding-top: 1em;
+    }
+    #invia{
+        color: #FFF;
+        background-color: #6AC065;
+        padding: 5px 12px;
+        font-size: 13px;
+        line-height: 17px;
+        min-width: 60px;
+        display: inline-block;
+        margin-bottom: 0px;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid transparent;
+        white-space: nowrap;
+    }
+</style>
+<body>
+
+<div id="content">
+
+<a href="/" style="text-align:center;"><h1>MiniB</h1></a>
+
+<hr>
+<form method="post" action="">
+    {% csrf_token %}
+    {% if form.errors %}
+        <p style="color: red;">
+            Per favore correggi gli errori qui sotto.
+        </p>
+    {% endif %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input id="invia" type="submit" value="Invia">
+</form>
+<hr>
+
+<span class="pages">
+    Pagine (pagina corrente {{ currentPage }}):
+    {% for pagenumber in pages %}
+    <a href="/{{ pagenumber }}/">{{ pagenumber }}</a>
+    {% endfor %}
+</span>
+
+<br>
+<br>
+
+<div id="posts">
+    {% for post in posts %}
+    <div class="post">
+        <h4 class="postHeader">
+            <a name="{{ post.id }}" href="/>>{{ post.id }}" >&gt;&gt;{{ post.id }}</a> -
+            {{ post.title }}
+        </h4>
+        <hr>
+         {% if post.picURL %}
+             <a class="postThumbinail" href="{{ post.picURL }}"><img class="postThumbinail" alt="Immagine" src="http://quickthumbnail.com/resizepix.php?ez_orig=1&wm=&wm_size=16&wm_color=1filter=none&filename={{ post.picURL }}&width=250"></a>
+		 {% endif %}
+
+         {{ post.content|doublearrowquotes|urlize|linebreaks }}
+    </div>
+    <br>
+    {% endfor %}
+</div>
+
+<span class="pages">
+    Pagine (pagina corrente {{ currentPage }}):
+    {% for pagenumber in pages %}
+    <a href="/{{ pagenumber }}/">{{ pagenumber }}</a>
+    {% endfor %}
+</span>
+
+</div>
+
+<hr>
+<footer>
+<em>Powered by <a href="http://github.com/fgaz/miniB">MiniB</a></em>
+</footer>
+
+</body>
+</html>
